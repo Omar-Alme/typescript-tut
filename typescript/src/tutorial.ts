@@ -113,3 +113,267 @@ discount = 20; // OK
 discount = '20%'; // OK
 // discount = true; // Error: Type 'true' is not assignable to type 'number | string'
 
+
+// Arrays
+// TypeScript also has support for arrays, which are used to store multiple values in a single variable.
+// Here's an example of an array in TypeScript:
+let prices: number[] = [10, 20, 30]; // Type is 'number[]'
+prices = [40, 50, 60]; // OK
+// prices = ['Alice', 'Bob', 'Charlie']; // Error: Type 'string[]' is not assignable to type 'number[]'
+
+let names: string[] = ['Alice', 'Bob', 'Charlie']; // Type is 'string[]'
+names = ['David', 'Edward', 'Frank']; // OK
+// names = [10, 20, 30]; // Error: Type 'number[]' is not assignable to type 'string[]'
+
+let emptyValues: any[] = [10, 'Alice', true]; // Type is 'any[]'
+emptyValues = ['Bob', 20, false]; // OK
+emptyValues = [true, 'Charlie', 30]; // OK
+
+let array: (string | number)[] = ['Alice', 42]; // Type is '(string | number)[]'
+array = [42, 'Alice']; // OK
+// array = [true, 42]; // Error: Type 'boolean[]' is not assignable to type '(string | number)[]'
+
+
+// Challenge
+// - Create an array temperatures of type number[] 
+// and assign it some values. Then, try to add a string value to it.
+// - Create an array colors of type string[] and assign it some values.
+//  Then, try to add a boolean value to it.
+// - Create an array mixedArray of type (number | string)[] 
+// and assign it some values. Then, try to add a boolean value to it.
+
+
+let temperatures: number[] = [10,19,29];
+// temperatures.push('omar');
+
+let colors: string[] = ['red', 'blue', 'green'];
+// colors.push(true);
+
+let mixedArray: (number | string)[] = [10, 'Alice', 42];
+mixedArray = ['Bob', 20, 'Charlie']; // OK
+// mixedArray = [true, 'David', 30]; // Error: Type 'boolean[]' is not assignable to type '(number | string)[]'
+
+// Objects
+// TypeScript also has support for objects, which are used to store key-value pairs in a single variable.
+// Here's an example of an object in TypeScript:
+
+let person: { name: string, age: number } = { name: 'Alice', age: 42 }; // Type is '{ name: string, age: number }'
+person.name = 'Bob'; // OK
+person.age = 20; // OK
+// person.race = 'White'; // Error:
+
+let book = {title: 'book' , cost: 20};
+let pen = {title: 'pen' , cost: 10};
+let notebook = {title: 'notebook'};
+
+// let items: {title: string, cost: number}[] = [book, pen, notebook];
+//let items: {title: string, cost?: number}[] = [book, pen, notebook];
+//items[0].title = 'new book'; will work without readonly
+let items: { readonly title: string, cost?: number}[] = [book, pen, notebook];
+
+
+// Challenge
+// Create an object bike of type { brand: string, year: number } 
+//and assign it some values. Then, try to assign a string to the year property.
+//- Create an object laptop of type { brand: string, year: number }
+// and try to assign an object with missing year property to it.
+// Create an array products of type { title: string, price?: number }[] and assign it some values. 
+//Then, try to add an object with a price property of type string to it.
+
+let bike: {brand: string, year: number} = {brand: 'Yamaha', year: 2021};
+bike.year = 2022; // OK
+// bike.year = '2022'; // Error: Type '"2022"' is not assignable to type 'number'
+
+let laptop: {brand: string, year?: number} = {brand: 'Apple'}; // OK
+// laptop = {brand: 'Dell'}; // Error: Property 'year' is missing in type '{ brand: string; }' but required in type '{ brand: string; year: number; }'
+
+let product1 = {title: 'book', price: 20};
+let product2 = {title: 'pen'};
+
+
+// Functions : parm
+// TypeScript also has support for functions, which are used to perform a specific task.
+// Here's an example of a function in TypeScript:
+
+// any
+// config
+//type
+
+function sayHi(name: string){
+  console.log(`Hello, ${name.toUpperCase()}!`);
+}
+
+sayHi('Alice'); // OK
+// sayHi(42); // Error: Argument of type '42' is not assignable to parameter of type 'string'
+
+
+// Returns
+
+function calculateDiscount(price: number): number {
+    const hasDiscount = true;
+
+    if (hasDiscount) {
+        return price * 0.9;
+        //return '20%'; // Error: Type 'string' is not assignable to type 'number'
+    }
+}
+
+const finalPrice = calculateDiscount(100); // Type is 'number'
+
+// Challenge
+// craete a new array of names
+//write a new function that checks if a name in your.
+//this function should take a name as a parameter and return a boolean.
+//use this function to check if the name 'Alice' is in the array. and log results
+
+const name2: string[] = ['omar','yusuf','adel']
+
+function isNameThere(name:string):boolean{
+    return name2.includes(name)
+}
+
+let checkName = 'omar'
+
+if (isNameThere(checkName)) {
+    console.log(`${checkName} is in the list`);
+} else {
+    console.log(`${checkName} is in not on the list`);
+}
+
+// Optional params
+function calculatePrice(price: number, discount?: number): number {
+    return price - (discount || 0);
+}
+
+let priceAfterDiscount = calculatePrice(100, 20);
+
+
+//Default param
+
+function calculateScore(
+    initialScore: number, 
+    penaltyPoints:number = 0
+): number{
+    return initialScore - penaltyPoints;
+}
+
+let scoreAfterPen = calculateScore(100,20)
+let scoreWithoutPen = calculateScore(300);
+
+// Rest param
+
+function sum(message: string, ...numbers:number[]): string {
+    const doubled = numbers.map((num) => num * 2);
+    console.log(doubled);
+
+    let total = numbers.reduce((previous, current)=>{
+        return previous + current;
+    }, 0);
+    return `${message}${total}`;
+
+}
+
+let result = sum('The total is: ',1,2,3,4,5)
+console.log(result);
+
+
+// Void keyword
+function logMessage(message: string): void{
+    console.log(message);
+    //return 'hello world';
+}
+
+logMessage('Hellp, homar');
+
+// Functions using Union types as Function Params
+//Challenge
+
+//Your task is to create a function named processInput that 
+//accepts a parameter of a union type string | number. 
+//The function should behave as follows:
+//If the input is of type number, the function should
+// multiply the number by 2 and log the result to the console.
+// If the input is of type string, the function
+// should convert the string to uppercase and 
+//log the result to the console.
+
+function processInput(input: string | number){
+    if(typeof input === 'number'){
+     console.log(input * 2);
+    }else{
+        console.log(input.toUpperCase());
+    }
+}
+
+processInput(2);
+processInput('i cant do this');
+
+// Functions objects as params
+
+function createEmployee({ id }:{id: number }):{id: number; isActive:boolean}{
+
+    return {id, isActive: id % 2 === 0};
+};
+
+const first = createEmployee({id:1})
+const second = createEmployee({id:2})
+
+console.log(first, second)
+
+
+
+// alternative
+function createStudent(student:{id:number; name:string}): void{
+    console.log(`Welcome to the course ${student.name.toUpperCase()}!`);
+}
+
+const newStudent = {
+    id:5,
+    name: 'george',
+    email: 'george@gmail.com' // ts wont complain if added here
+};
+
+createStudent(newStudent)
+//Excess property check
+//createStudent({ id: 1, name: 'ben', email: 'ben@gmail.com' })
+
+//Functions challenge
+
+/*
+Your task is to create a function named processData that accepts two parameters:
+
+- The first parameter, input, should be a union type that 
+can be either a string or a number.
+- The second parameter, config, should be an object with 
+a reverse property of type boolean, by default it "reverse"
+should be false
+
+The function should behave as follows:
+
+- If input is of type number, the function should return 
+the square of the number.
+- If input is of type string, the function should return 
+the string in uppercase.
+- If the reverse property on the config object is true, 
+and input is a string, the function should return 
+the reversed string in uppercase.
+
+*/
+
+function processData(
+    input: string | number, 
+    config: {reverse: boolean} = {reverse: false}
+): string | number {
+    if(typeof input === 'number'){
+        return input * input
+    } else {
+        return config.reverse
+        ? input.toUpperCase().split('').reverse().join('')
+        : input.toUpperCase();
+        
+    }
+}
+
+console.log(processData(10)); // Output: 100
+console.log(processData('Hello')); // Output: HELLO
+console.log(processData('Hello', { reverse: true })); // Output: OLLEH
