@@ -377,3 +377,138 @@ function processData(
 console.log(processData(10)); // Output: 100
 console.log(processData('Hello')); // Output: HELLO
 console.log(processData('Hello', { reverse: true })); // Output: OLLEH
+
+
+// Type Aliases
+
+type User = { id: number; name: string; isActive: boolean }
+
+const john: User = {
+    id: 1,
+    name: 'john',
+    isActive: true,
+};
+const susan: User  = {
+    id: 1,
+    name: 'susan',
+    isActive: false,
+};
+
+function createUser(user: User): User {
+    console.log(`Hello there ${user.name.toUpperCase()} !!!`);
+
+    return user;
+}
+
+
+type StringOrNumber = string | number; //not common but can see
+
+let value: StringOrNumber;
+value = "hello";
+value= 123;
+
+
+type Theme = 'light' | 'dark'; //more common to use 
+
+let theme: Theme;
+theme = 'light';
+theme = 'dark';
+
+function setTheme(t: Theme){
+    theme = t;
+}
+
+setTheme('light');
+
+// Challenge
+/*
+- Define the Employee type: 
+Create a type Employee with properties id (number), name (string), 
+and department (string).
+- Define the Manager type: 
+Create a type Manager with properties id (number), name (string), 
+and employees (an array of Employee).
+- Create a Union Type: 
+Define a type Staff that is a union of Employee and Manager.
+- Create the printStaffDetails function: 
+This function should accept a parameter of type Staff. 
+Inside the function, use a type guard to check if 
+the 'employees' property exists in the passed object. 
+If it does, print a message indicating that the person is a manager 
+and the number of employees they manage. 
+If it doesn't, print a message indicating that the person is an 
+employee and the department they belong to.
+- Create Employee and Manager objects: 
+Create two Employee objects. One named alice and second named steve.
+Also create a Manager object named bob who manages alice and steve.
+- Test the function: 
+Call the printStaffDetails function with alice and bob as arguments and 
+verify the output.
+*/
+
+type Employee = {id: number; name: string; department: string};
+type Manager = {id: number; name: string; employees: Employee[]};
+type Staff = Employee | Manager;
+
+function printStaffDetails(staff: Staff) {
+    if('employees' in staff){
+        console.log(`${staff.name} is a manager of ${staff.employees.length} employees.`);
+    } else {
+        console.log(`${staff.name} is an employee in the ${staff.department} department`);
+    }
+}
+
+
+const alice: Employee = {
+    id: 1,
+    name: 'alice',
+    department: 'IT'
+};
+
+const steve: Employee = {
+    id: 2,
+    name: 'steve',
+    department: 'IT'
+};
+
+const bob: Manager = {
+    id: 1,
+    name: 'bob',
+    employees: [alice, steve]
+}
+
+printStaffDetails(alice)
+printStaffDetails(bob)
+
+
+// Intersection Types
+
+type Book = { id: number; name: string; price: number };
+type DiscountedBook = Book & { discount: number };
+const book1: Book = {
+  id: 2,
+  name: 'How to Cook a Dragon',
+  price: 15,
+};
+
+const book2: Book = {
+  id: 3,
+  name: 'The Secret Life of Unicorns',
+  price: 18,
+};
+
+const discountedBook: DiscountedBook = {
+  id: 4,
+  name: 'Gnomes vs. Goblins: The Ultimate Guide',
+  price: 25,
+  discount: 0.15,
+};
+
+// Computed properties
+const propName = 'age';
+
+type Animal = {
+  [propName]: number;
+};
+
+let tiger: Animal = { [propName]: 5 };
