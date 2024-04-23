@@ -1,5 +1,8 @@
 console.log('Hello TypeScript!');
 
+
+
+
 // Type Annotations
 // TypeScript is a statically typed language, which means that the type of a variable is known at compile time.
 // This is achieved by using type annotations, which are a way to explicitly specify the type of a variable.
@@ -446,6 +449,8 @@ Call the printStaffDetails function with alice and bob as arguments and
 verify the output.
 */
 
+/*
+
 type Employee = {id: number; name: string; department: string};
 type Manager = {id: number; name: string; employees: Employee[]};
 type Staff = Employee | Manager;
@@ -504,6 +509,8 @@ const discountedBook: DiscountedBook = {
   discount: 0.15,
 };
 
+*/
+
 // Computed properties
 const propName = 'age';
 
@@ -512,3 +519,174 @@ type Animal = {
 };
 
 let tiger: Animal = { [propName]: 5 };
+
+
+// Interface 
+interface Novel{
+    readonly isbn: number;
+    title: string;
+    author: string;
+    genre?: string;
+
+    //method
+    printAuthor(): void;
+    printTitle(message: string): string;
+}
+
+const deepWork: Novel = {
+    isbn: 123,
+    title: 'deep work',
+    author: 'cal newport',
+    genre: 'self help',
+
+    printAuthor() {
+        console.log(this.author);
+    },
+
+    printTitle(message) {
+        return `${this.title} ${message}`;
+    },
+};
+
+deepWork.printAuthor();
+const review = deepWork.printTitle('is an awesome book');
+console.log(review);
+
+//deepWork.isbn = 'some value'
+
+
+//challenge
+/*
+Start by defining an interface Computer using the interface keyword. 
+This will serve as a blueprint for objects that will be of this type.
+- Inside the interface, define the properties that the object should have. 
+In this case, we have id, brand, ram, and storage.
+- Use the readonly keyword before the id property to indicate that it cannot be changed 
+once it's set.
+- Use the ? after the storage property to indicate that this property is optional 
+and may not exist on all objects of this type.
+- Also inside the interface, define any methods that the object should have. 
+In this case, we have upgradeRam, which is a function that takes a number 
+and returns a number.
+- Now that we have our interface, we can create an object that adheres to this interface.
+This object should have all the properties defined in the 
+interface (except for optional ones, which are... optional), 
+and the methods should be implemented.
+- Finally, we can use our object. We can call its upgradeRam method to increase its RAM.
+*/
+
+interface Computer {
+    readonly id: number;
+    brand: string;
+    ram: number;
+    storage?: number;
+
+    upgradeRam(upgrade: number): number;
+}
+
+
+const dell: Computer = {
+    id: 2024,
+    brand: 'dell',
+    ram: 8,
+
+    upgradeRam(increase) {
+        this.ram += increase;
+        return this.ram;
+    },
+}
+
+
+dell.storage = 256;
+
+console.log(dell.upgradeRam(4));
+console.log(dell)
+
+
+// interface merge
+
+//Challenge p1
+
+/*
+
+- Define the Person interface Start by defining a Person interface with a 
+name property of type string.
+- Define the DogOwner interface Next, define a DogOwner interface that extends Person and 
+adds a dogName property of type string.
+- Define the Manager interface Then, define a Manager interface that extends Person 
+and adds two methods: managePeople and delegateTasks. 
+Both methods should have a return type of void.
+- Define the getEmployee function Now, define a function called getEmployee that 
+returns a Person, DogOwner, or Manager. Inside this function, generate a random number 
+and use it to decide which type of object to return. 
+If the number is less than 0.33, return a Person. 
+If it's less than 0.66, return a DogOwner. Otherwise, return a Manager.
+- Finally, create a variable called employee that can be a Person, DogOwner, 
+or Manager, and assign it the return value of getEmployee. Then, log employee to the console.
+
+PART 2
+A type predicate in TypeScript is a special kind of return type for a function that 
+not only returns a boolean, but also asserts that the argument is of a specific type 
+if the function returns true. It's typically used in user-defined type guard functions to 
+narrow down the type of a variable within a certain scope. 
+The syntax is arg is Type, where arg is the function argument and Type is the 
+type you're checking for.
+
+- Define the isManager function Define a function called isManager that takes an object 
+of type Person | DogOwner | Manager and returns a boolean. 
+This function should check if the managePeople method exists on the object, and 
+return true if it does and false if it doesn't. 
+The return type of this function should be a type predicate: obj is Manager.
+- Run your code to see if it works as expected. 
+If employee is a Manager, you should see the output of the delegateTasks method in the console. If employee is a Person or DogOwner, there should be no output.
+*/
+
+interface Person{
+    name: string;
+}
+
+interface DogOwner extends Person {
+    dogName: string;
+}
+
+interface Manager extends Person {
+    managePeople(): void;
+    delegateTasks(): void;
+}
+
+function getEmployee(): Person | DogOwner | Manager {
+    const random = Math.random()
+    if(random < 0.33){
+        return {
+            name: 'Bob'
+        };
+    } else if (random < 0.66) {
+        return {
+            name: 'ahmed',
+            dogName: 'rob'
+        };
+    } else {
+        return {
+            name:'alex',
+            managePeople(){
+                console.log('Managing people....');
+            },
+            delegateTasks() {
+                console.log('delegating tasks')
+            },
+        }
+    }
+}
+
+const employee: Person | DogOwner | Manager = getEmployee();
+console.log(employee)
+
+// type predicate part 2
+
+function isManager(obj: Person | DogOwner | Manager): obj is Manager {
+    return 'managePeople' in obj;
+}
+
+if (isManager(employee)){
+    employee.delegateTasks();
+}
