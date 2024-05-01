@@ -1073,7 +1073,7 @@ function isStudent(people: People): people is Student{
 }
 
 if(isStudent(people)) {
-    people.study():
+    people.study();
 } else {
     people.login();
 }
@@ -1135,3 +1135,116 @@ const newState = reducer(15, {
     timestamp: 123456,
 });
 
+// GENERICS
+// In TypeScript, you can declare an array using two syntaxes:
+
+// let array1: string[] = ['Apple', 'Banana', 'Mango'];
+// let array2: number[] = [1, 2, 3];
+// let array3: boolean[] = [true, false, true];
+
+let array1: Array<string> = ['Apple', 'Banana', 'Mango'];
+let array2: Array<number> = [1, 2, 3];
+let array3: Array<boolean> = [true, false, true];
+
+
+function createString(arg: string): string {
+  return arg;
+}
+function createNumber(arg: number): number {
+  return arg;
+}
+
+// Define a generic function
+function genericFunction<T>(arg: T): T {
+  return arg;
+}
+
+const someStringValue = genericFunction<string>('Hello World');
+const someNumberValue = genericFunction<number>(2);
+
+interface GenericInterface<T> {
+    value: T;
+    getValue: () => T;
+  }
+  
+  const genericString: GenericInterface<string> = {
+    value: 'Hello World',
+    getValue() {
+      return this.value;
+    },
+  };
+
+
+// Generics Promise
+async function someFunc(): Promise<string> {
+    return 'Hello World';
+  }
+  
+  const results = someFunc();
+
+
+// Generics Create Array
+
+function generateStringArray(length:number, value:string):string[]{
+    let resultss:string[] = [];
+    resultss = Array(length).fill(value);
+    return resultss;
+}
+
+
+
+
+console.log(generateStringArray(6,'hi'));
+
+
+
+function createArray<T>(length:number, value: T): Array<T> {
+    let resultss: T[] = [];
+    resultss = Array(length).fill(value);
+    return resultss;
+}
+
+let arrayStrings = createArray<string>(10,'omar')
+let arrayNumbers = createArray<number>(10,100)
+
+console.log(arrayStrings);
+console.log(arrayNumbers);
+
+
+// Generic multople types
+
+function pair<T, U>(param1:T, param2: U): [T, U] {
+    return [param1, param2];
+}
+
+let solution = pair(123, 'Hello');
+
+//  const [name,setName] = useState('')
+//  const [products,setProducts] = useState<Product[]>([])
+
+
+// Gerenics Type constraints
+
+function processValue<T extends number | string>(value: T): T {
+    console.log(value);
+    return value;
+  }
+  
+  processValue('hello');
+  processValue(12);
+//   processValue(true);
+
+
+
+// Generics default type
+interface StoreData<T> {
+    data: T[];
+}
+
+const storeNumbers: StoreData<number> = {
+    data: [1, 2, 3, 4],
+};
+
+const randomStuff:StoreData = {
+    data:['random', 1]
+}
