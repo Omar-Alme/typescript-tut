@@ -1305,4 +1305,83 @@ tours.map((tour) => {
 
 
 
-// Gotcha  ZOD library to validate submissions
+// Classes 
+
+// everything is on default set as public
+class Boxer {
+    readonly name: string;
+    weight: number;
+    private knockedOut = false;
+
+    constructor(name: string, weight: number) {
+        this.name = name;
+        this.weight = weight;
+    }
+    public knockOut(){
+        this.knockedOut = this.toggleKnockedOutStatus();
+    }
+    public isKnockedOut(){
+        return this.knockedOut;
+    }
+    private toggleKnockedOutStatus(){
+        return !this.knockedOut
+    }
+}
+
+const worldChampion = new Boxer('Ryan Garcia', 143.2);
+// worldChampion.knockedOut = true;
+// worldChampion.name = 'Devin haney'// cant change because its readonly
+worldChampion.knockOut();
+console.log(worldChampion);
+
+worldChampion.knockOut();
+worldChampion.knockOut();
+worldChampion.knockOut();
+
+
+console.log(worldChampion.isKnockedOut());
+
+
+// Getters and setters
+class Books {
+    private checkedOut: boolean = false;
+    constructor(public readonly title: string, public author: string) {}
+    get info() {
+      return `${this.title} by ${this.author}`;
+    }
+  
+    private set checkOut(checkedOut: boolean) {
+      this.checkedOut = checkedOut;
+    }
+    get checkOut() {
+      return this.checkedOut;
+    }
+    public get someInfo() {
+      this.checkOut = true;
+      return `${this.title} by ${this.author}`;
+    }
+  }
+  
+  const deepWorks = new Books('deep work', 'cal newport');
+  console.log(deepWorks.info);
+  // deepWork.checkOut = true;
+  console.log(deepWorks.someInfo);
+  console.log(deepWorks.checkOut);
+
+
+  // classes interface implkemetation
+interface IPerson{
+    name: string;
+    age: number;
+    greet(): void;
+}
+
+class Person implements IPerson {
+    constructor(public name: string, public age: number){}
+    greet():void {
+        console.log(`Hello, my name is ${this.name} and I am ${this.age} years old`);
+    }
+}
+
+const hipster = new Person('shakeAndBake', 100);
+hipster.greet();
